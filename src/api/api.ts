@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { DayInfo, DayInfoResponse } from '../interfaces/weatherData';
-import { convertToCelsius, convertToFahrenheit } from '../utils/convertData';
+import { convertToCelsius, convertToFahrenheit, getDate } from '../utils/convertData';
 
 const OPEN_WEATHER_MAP_KEY = 'b06ef0545a0c1f17df53bbab4832aa3e';
 
@@ -39,11 +39,12 @@ export const getWeatherData = async (coordinates: {
 
   try {
     return await axios.get(url, { params }).then((response) => {
+      const currentDay = response.data?.current;
       const daily = response.data?.daily;
       const daysInfo: DayInfo[] = [];
 
       daily.map((day: DayInfoResponse) => {
-        const transformedDay = {
+        const transformedDay: DayInfo = {
           dt: day.dt,
           min_temp_C: convertToCelsius(day.temp.min),
           max_temp_C: convertToCelsius(day.temp.max),
@@ -56,6 +57,11 @@ export const getWeatherData = async (coordinates: {
           weather_description: day.weather[0].description,
           icon: day.weather[0].icon,
         };
+
+        if (getDate(day.dt) === getDate(currentDay.dt)) {
+          transformedDay.current_temp_C = convertToCelsius(currentDay.temp);
+          transformedDay.current_temp_F = convertToFahrenheit(currentDay.temp);
+        }
 
         return daysInfo.push(transformedDay);
       });

@@ -28,9 +28,9 @@ const Details: VFC<DetailsProps> = ({
     if (!dayInfo) return;
 
     if (tempScale === 'C') {
-      setTemp(dayInfo.max_temp_C);
+      setTemp(dayInfo.current_temp_C || dayInfo.max_temp_C);
     } else {
-      setTemp(dayInfo.max_temp_F);
+      setTemp(dayInfo.current_temp_F || dayInfo.max_temp_F);
     }
   }, [dayInfo, tempScale]);
 

@@ -1,5 +1,7 @@
 export interface DayInfo {
   dt: number;
+  current_temp_C?: number,
+  current_temp_F?: number,
   min_temp_C: number;
   max_temp_C: number;
   min_temp_F: number;

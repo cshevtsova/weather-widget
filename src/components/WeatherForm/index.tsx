@@ -27,7 +27,7 @@ const WeatherForm: VFC<WeatherFormProps> = ({
   useEffect(() => {
     setSelectedIndex(0);
     setSelectedDayInfo(today);
-  }, [noWeather, daysInfo]);
+  }, [today, noWeather, daysInfo]);
 
   const handleSelectItem = useCallback((index: number) => {
     setSelectedIndex(index);
